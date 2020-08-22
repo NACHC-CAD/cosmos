@@ -1,0 +1,9 @@
+# ---
+#
+# Properties file for authntication information.  
+# (Copy this file and rename to auth.properties.  The auth/**/*.property files are on the .gitignore path.)
+#
+# ---
+
+databricks-url=<URL>
+databricks-bearer-token=<TOKEN>
