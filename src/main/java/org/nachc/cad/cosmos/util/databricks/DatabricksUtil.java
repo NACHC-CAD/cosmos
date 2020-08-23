@@ -52,10 +52,12 @@ public class DatabricksUtil {
 	public static String delete(String filePath) {
 		String token = DatabricksAuthUtil.getToken();
 		String url = DatabricksAuthUtil.getApiUrl();
-		url = url + "/dbfs/delete?path=" + filePath;
+		url = url + "/dbfs/delete";
+		log.info("Sending to url: \n" + url);
 		HttpRequestClient client = new HttpRequestClient(url);
 		client.setOauthToken(token);
-		client.doPost("");
+		String json = "{\"path\":\"" + filePath + "\"}"; 
+		client.doPost(json);
 		String response = client.getResponse();
 		return response;
 	}

@@ -24,48 +24,13 @@ public class DatabricksUtilPutIntegrationTest {
 	@Test
 	public void shouldPutFileOnServer() throws Exception {
 		log.info("Starting test...");
-		
-		String filePath = "/FileStore/tables/test/integration-testing/basic/FROM-JAVA.txt";
+		String filePath = DatabricksTestFiles.HELLO_WORLD_PATH;
 		String fileName = "/src/test/resources/csv/dummy/hello-world.txt";
 		File file = FileUtil.getFromProjectRoot(fileName);
 		log.info("Got file: " + file.getCanonicalPath());
 		String response = DatabricksUtil.put(filePath, file);
 		log.info("Got response: \n " + response);
-		
-		// String fileName = "/src/test/resources/csv/dummy/hello-world.txt";
-		// File file = FileUtil.getFromProjectRoot(fileName);
-		// postFile(file);
 		log.info("Done.");
 	}
 
-	private void postFile(File file) throws Exception {
-		String url = DatabricksAuthUtil.getApiUrl() + "/dbfs/put";
-		String token = DatabricksAuthUtil.getToken();
-		String path = "/FileStore/tables/demo/foobar/flights/2011-summary.csv";
-		CloseableHttpClient httpClient = HttpClients.createDefault();
-		HttpPost httpPost = new HttpPost(url);
-		MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-		builder.addTextBody("path", path, ContentType.TEXT_PLAIN);
-
-		httpPost.addHeader("Authorization", "Bearer " + token);
-		
-		// This attaches the file to the POST:
-
-		builder.addBinaryBody(
-		    "file",
-		    new FileInputStream(file),
-		    ContentType.APPLICATION_OCTET_STREAM,
-		    file.getName()
-		);
-
-		HttpEntity multipart = builder.build();
-		httpPost.setEntity(multipart);
-		CloseableHttpResponse response = httpClient.execute(httpPost);
-		HttpEntity responseEntity = response.getEntity();
-		String str = HttpRequestClient.getResponse(responseEntity.getContent());
-		log.info(response.getStatusLine().getStatusCode() + "");
-		
-		log.info("Got response \n" + str);
-	}
-	
 }
