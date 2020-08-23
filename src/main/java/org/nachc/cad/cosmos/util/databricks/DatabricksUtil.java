@@ -13,6 +13,27 @@ public class DatabricksUtil {
 
 	/**
 	 * 
+	 * Query if a file exists at the given location on the server. 
+	 * 
+	 */
+	public static boolean exists(String filePath) {
+		String token = DatabricksAuthUtil.getToken();
+		String url = DatabricksAuthUtil.getApiUrl();
+		url = url + "/dbfs/get-status?path=" + filePath;
+		HttpRequestClient client = new HttpRequestClient(url);
+		client.setOauthToken(token);
+		client.doGet();
+		int statusCode = client.getStatusCode();
+		if(statusCode == 200) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
+	/**
+	 * 
 	 * Get a directory listing of the given path.
 	 * 
 	 */
@@ -53,7 +74,6 @@ public class DatabricksUtil {
 		String token = DatabricksAuthUtil.getToken();
 		String url = DatabricksAuthUtil.getApiUrl();
 		url = url + "/dbfs/delete";
-		log.info("Sending to url: \n" + url);
 		HttpRequestClient client = new HttpRequestClient(url);
 		client.setOauthToken(token);
 		String json = "{\"path\":\"" + filePath + "\"}"; 
