@@ -67,6 +67,24 @@ public class DatabricksUtil {
 
 	/**
 	 * 
+	 * Method to put a file on the server.  
+	 * 
+	 */
+	public static String putZip(String filePath, File file) {
+		String token = DatabricksAuthUtil.getToken();
+		String url = DatabricksAuthUtil.getApiUrl();
+		url = url + "/dbfs/put";
+		HttpRequestClient client = new HttpRequestClient(url);
+		client.setOauthToken(token);
+		client.addHeader("Content-Encoding", "gzip");
+		client.addFormData("path", filePath);
+		client.postFile(file, filePath);
+		String response = client.getResponse();
+		return response;
+	}
+
+	/**
+	 * 
 	 * Delete a file from the server.
 	 * 
 	 */
