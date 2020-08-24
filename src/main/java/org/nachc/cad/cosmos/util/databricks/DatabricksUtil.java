@@ -16,7 +16,8 @@ public class DatabricksUtil {
 	 * Query if a file exists at the given location on the server. 
 	 * 
 	 */
-	public static boolean exists(String filePath) {
+	public static DatabricksResponse exists(String filePath) {
+		DatabricksResponse rtn = new DatabricksResponse();
 		String token = DatabricksAuthUtil.getToken();
 		String url = DatabricksAuthUtil.getApiUrl();
 		url = url + "/dbfs/get-status?path=" + filePath;
@@ -24,13 +25,15 @@ public class DatabricksUtil {
 		client.setOauthToken(token);
 		client.doGet();
 		int statusCode = client.getStatusCode();
+		rtn.setResponse(client.getResponse());
+		rtn.setStatusCode(statusCode);
 		if(statusCode == 200) {
-			return true;
+			rtn.setSuccess(true);
 		} else {
-			return false;
+			rtn.setSuccess(false);
 		}
+		return rtn;
 	}
-	
 	
 	/**
 	 * 
@@ -88,7 +91,7 @@ public class DatabricksUtil {
 	 * Delete a file from the server.
 	 * 
 	 */
-	public static String delete(String filePath) {
+	public static DatabricksResponse delete(String filePath) {
 		String token = DatabricksAuthUtil.getToken();
 		String url = DatabricksAuthUtil.getApiUrl();
 		url = url + "/dbfs/delete";
@@ -96,8 +99,27 @@ public class DatabricksUtil {
 		client.setOauthToken(token);
 		String json = "{\"path\":\"" + filePath + "\"}"; 
 		client.doPost(json);
-		String response = client.getResponse();
-		return response;
+		DatabricksResponse rtn = new DatabricksResponse();
+		rtn.setResponse(client.getResponse());
+		rtn.setStatusCode(client.getStatusCode());
+		rtn .setSuccess(rtn.getStatusCode() == 200);
+		return rtn;
 	}
 
+	public static DatabricksResponse rmdir(String filePath) {
+		String token = DatabricksAuthUtil.getToken();
+		String url = DatabricksAuthUtil.getApiUrl();
+		url = url + "/dbfs/delete";
+		HttpRequestClient client = new HttpRequestClient(url);
+		client.setOauthToken(token);
+		String json = "{\"path\":\"" + filePath + "\"}"; 
+		client.doPost(json);
+		DatabricksResponse rtn = new DatabricksResponse();
+		rtn.setResponse(client.getResponse());
+		rtn.setStatusCode(client.getStatusCode());
+		rtn .setSuccess(rtn.getStatusCode() == 200);
+		return rtn;
+	}
+	
+	
 }

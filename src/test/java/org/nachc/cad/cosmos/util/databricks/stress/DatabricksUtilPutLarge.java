@@ -5,8 +5,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.junit.Test;
-import org.nachc.cad.cosmos.util.databricks.DatabricksTestFiles;
 import org.nachc.cad.cosmos.util.databricks.DatabricksUtil;
+import org.nachc.cad.cosmos.util.databricks.consts.DatabricksTestFiles;
 
 import lombok.extern.slf4j.Slf4j;
 

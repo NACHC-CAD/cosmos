@@ -1,6 +1,9 @@
 package org.nachc.cad.cosmos.util.databricks;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
+import org.nachc.cad.cosmos.util.databricks.consts.DatabricksTestFiles;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,8 +14,12 @@ public class DatabricksUtilDeleteIntegrationTest {
 	public void shouldDeleteFile() {
 		log.info("Starting test...");
 		String filePath = DatabricksTestFiles.HELLO_WORLD_PATH;
-		String response = DatabricksUtil.delete(filePath);
-		log.info("Deleted file: \n" + response);
+		log.info("Doing delete...");
+		DatabricksResponse response = DatabricksUtil.delete(filePath);
+		log.info("Response: " + response.getResponse().trim());
+		log.info("Status: " + response.getStatusCode());
+		log.info("Success: " + response.isSuccess());
+		assertTrue(response.isSuccess() == true);
 		log.info("Done.");
 	}
 	

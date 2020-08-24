@@ -1,4 +1,4 @@
-package org.nachc.cad.cosmos.util.databricks;
+package org.nachc.cad.cosmos.util.databricks.consts;
 
 import java.io.File;
 
