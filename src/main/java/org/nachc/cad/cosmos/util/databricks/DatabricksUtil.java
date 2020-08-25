@@ -56,7 +56,7 @@ public class DatabricksUtil {
 	 * Method to put a file on the server.  
 	 * 
 	 */
-	public static String put(String filePath, File file) {
+	public static DatabricksResponse put(String filePath, File file) {
 		String token = DatabricksAuthUtil.getToken();
 		String url = DatabricksAuthUtil.getApiUrl();
 		url = url + "/dbfs/put";
@@ -64,8 +64,11 @@ public class DatabricksUtil {
 		client.setOauthToken(token);
 		client.addFormData("path", filePath);
 		client.postFile(file, filePath);
-		String response = client.getResponse();
-		return response;
+		DatabricksResponse rtn = new DatabricksResponse();
+		rtn.setResponse(client.getResponse());
+		rtn.setStatusCode(client.getStatusCode());
+		rtn .setSuccess(rtn.getStatusCode() == 200);
+		return rtn;
 	}
 
 	/**

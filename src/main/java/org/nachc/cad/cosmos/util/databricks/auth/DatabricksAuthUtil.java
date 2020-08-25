@@ -15,5 +15,9 @@ public class DatabricksAuthUtil {
 	public static String getToken() {
 		return PROPS.getProperty("databricks-bearer-token");
 	}
+	
+	public static String getTestFilesDir() {
+		return PROPS.getProperty("test-files-dir");
+	}
 
 }
