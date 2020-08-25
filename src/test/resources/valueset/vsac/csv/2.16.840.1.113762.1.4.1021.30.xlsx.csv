@@ -1,0 +1,12 @@
+Code,Description,Code System,Code System Version,Code System OID,Value Set Name,Code System,OID
+C102405,Capful Dosing Unit,NCI,2020-02,2.16.840.1.113883.3.26.1.1,AdministrationUnitDoseForm,NCI,2.16.840.1.113762.1.4.1021.30
+C122629,Actuation Dosing Unit,NCI,2020-02,2.16.840.1.113883.3.26.1.1,AdministrationUnitDoseForm,NCI,2.16.840.1.113762.1.4.1021.30
+C122631,Dropperful Dosing Unit,NCI,2020-02,2.16.840.1.113883.3.26.1.1,AdministrationUnitDoseForm,NCI,2.16.840.1.113762.1.4.1021.30
+C25397,Application Unit,NCI,2020-02,2.16.840.1.113883.3.26.1.1,AdministrationUnitDoseForm,NCI,2.16.840.1.113762.1.4.1021.30
+C44278,Unit,NCI,2020-02,2.16.840.1.113883.3.26.1.1,AdministrationUnitDoseForm,NCI,2.16.840.1.113762.1.4.1021.30
+C48491,Metric Drop,NCI,2020-02,2.16.840.1.113883.3.26.1.1,AdministrationUnitDoseForm,NCI,2.16.840.1.113762.1.4.1021.30
+C48501,Inhalation Dosing Unit,NCI,2020-02,2.16.840.1.113883.3.26.1.1,AdministrationUnitDoseForm,NCI,2.16.840.1.113762.1.4.1021.30
+C48536,Scoopful Dosing Unit,NCI,2020-02,2.16.840.1.113883.3.26.1.1,AdministrationUnitDoseForm,NCI,2.16.840.1.113762.1.4.1021.30
+C48537,Spray Dosing Unit,NCI,2020-02,2.16.840.1.113883.3.26.1.1,AdministrationUnitDoseForm,NCI,2.16.840.1.113762.1.4.1021.30
+C65060,Puff Dosing Unit,NCI,2020-02,2.16.840.1.113883.3.26.1.1,AdministrationUnitDoseForm,NCI,2.16.840.1.113762.1.4.1021.30
+C71204,Nebule Dosing Unit,NCI,2020-02,2.16.840.1.113883.3.26.1.1,AdministrationUnitDoseForm,NCI,2.16.840.1.113762.1.4.1021.30
