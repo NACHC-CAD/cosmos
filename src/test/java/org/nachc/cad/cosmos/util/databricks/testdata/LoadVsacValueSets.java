@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class LoadVsacValueSets {
 
 	public static void main(String[] args) {
-		String target = "/FileStore/tables/test/demo-00/value-set";
+		String target = "/FileStore/tables/test/demo-03/value-set";
 		File dir = new File(DatabricksAuthUtil.getTestFilesDir(), "value-sets/csv");
 		List<File> files = FileUtil.listFiles(dir, "*.csv");
 		int cnt = 0;
