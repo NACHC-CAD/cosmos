@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
+import org.apache.poi.ss.usermodel.Sheet;
 import org.junit.Test;
 
 import com.nach.core.util.file.FileUtil;
@@ -20,7 +21,9 @@ public class VsacValueSetParserIntegrationTest {
 		File file = FileUtil.getFromProjectRoot("/src/test/resources/valueset/vsac/excel/" + fileName);
 		log.info("Got file: " + file.getCanonicalPath());
 		assertTrue(file.exists());
-		VsacValueSetParser.parseFile(file);
+		Sheet metaData = VsacValueSetParser.parseFile(file);
+		File metaDataDir = new File(file.getParentFile().getParentFile(), "meta");
+		VsacValueSetParser.writeMetaData(metaDataDir, metaData);
 		log.info("Done.");
 	}
 	
