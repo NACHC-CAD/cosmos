@@ -13,7 +13,7 @@ public class DatabricksUtil {
 
 	/**
 	 * 
-	 * Query if a file exists at the given location on the server. 
+	 * Query if a file exists at the given location on the server.
 	 * 
 	 */
 	public static DatabricksResponse exists(String filePath) {
@@ -27,14 +27,14 @@ public class DatabricksUtil {
 		int statusCode = client.getStatusCode();
 		rtn.setResponse(client.getResponse());
 		rtn.setStatusCode(statusCode);
-		if(statusCode == 200) {
+		if (statusCode == 200) {
 			rtn.setSuccess(true);
 		} else {
 			rtn.setSuccess(false);
 		}
 		return rtn;
 	}
-	
+
 	/**
 	 * 
 	 * Get a directory listing of the given path.
@@ -53,7 +53,7 @@ public class DatabricksUtil {
 
 	/**
 	 * 
-	 * Method to put a file on the server.  
+	 * Method to put a file on the server.
 	 * 
 	 */
 	public static DatabricksResponse put(String filePath, File file) {
@@ -67,13 +67,13 @@ public class DatabricksUtil {
 		DatabricksResponse rtn = new DatabricksResponse();
 		rtn.setResponse(client.getResponse());
 		rtn.setStatusCode(client.getStatusCode());
-		rtn .setSuccess(rtn.getStatusCode() == 200);
+		rtn.setSuccess(rtn.getStatusCode() == 200);
 		return rtn;
 	}
 
 	/**
 	 * 
-	 * Method to put a file on the server.  
+	 * Method to put a file on the server.
 	 * 
 	 */
 	public static String putZip(String filePath, File file) {
@@ -100,12 +100,12 @@ public class DatabricksUtil {
 		url = url + "/dbfs/delete";
 		HttpRequestClient client = new HttpRequestClient(url);
 		client.setOauthToken(token);
-		String json = "{\"path\":\"" + filePath + "\"}"; 
+		String json = "{\"path\":\"" + filePath + "\"}";
 		client.doPost(json);
 		DatabricksResponse rtn = new DatabricksResponse();
 		rtn.setResponse(client.getResponse());
 		rtn.setStatusCode(client.getStatusCode());
-		rtn .setSuccess(rtn.getStatusCode() == 200);
+		rtn.setSuccess(rtn.getStatusCode() == 200);
 		return rtn;
 	}
 
@@ -115,14 +115,13 @@ public class DatabricksUtil {
 		url = url + "/dbfs/delete";
 		HttpRequestClient client = new HttpRequestClient(url);
 		client.setOauthToken(token);
-		String json = "{\"path\":\"" + filePath + "\"}"; 
+		String json = "{\"path\":\"" + filePath + "\"}";
 		client.doPost(json);
 		DatabricksResponse rtn = new DatabricksResponse();
 		rtn.setResponse(client.getResponse());
 		rtn.setStatusCode(client.getStatusCode());
-		rtn .setSuccess(rtn.getStatusCode() == 200);
+		rtn.setSuccess(rtn.getStatusCode() == 200);
 		return rtn;
 	}
-	
-	
+
 }
