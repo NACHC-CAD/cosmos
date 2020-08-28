@@ -16,6 +16,13 @@ public class DatabricksAuthUtil {
 		return PROPS.getProperty("databricks-bearer-token");
 	}
 	
+	public static String getJdbcUrl() {
+		String url = PROPS.getProperty("databricks-jdbc-url");
+		String token = DatabricksAuthUtil.getToken();
+		url = url + "PWD=" + token;
+		return url;
+	}
+	
 	public static String getTestFilesDir() {
 		return PROPS.getProperty("test-files-dir");
 	}

@@ -16,11 +16,9 @@ public class DatabricksJdbcIntegrationTest {
 	@Test
 	public void shouldGetConnecton() throws Exception {
 		log.info("Getting connection...");
-		// get the connection parameters
-		String url = "jdbc:spark://dbc-d8b275e5-4908.cloud.databricks.com:443/default;transportMode=http;ssl=1;httpPath=sql/protocolv1/o/6721863645546406/0822-135801-cadre203;AuthMech=3;UID=token;PWD=";
-		String token = DatabricksAuthUtil.getToken();
 		String schemaName = "integration_test";
-		url = url + token;
+		// get the connection parameters
+		String url = DatabricksAuthUtil.getJdbcUrl();
 		// get the connection
 		Connection conn = DriverManager.getConnection(url);
 		log.info("Got connection");

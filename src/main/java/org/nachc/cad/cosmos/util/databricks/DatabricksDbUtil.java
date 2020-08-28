@@ -1,13 +1,29 @@
 package org.nachc.cad.cosmos.util.databricks;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.List;
 import java.util.Map;
 
+import org.nachc.cad.cosmos.util.databricks.auth.DatabricksAuthUtil;
 import org.yaorma.database.Database;
 
 public class DatabricksDbUtil {
 
+	//
+	// connection
+	//
+	
+	public static Connection getConnection() {
+		try {
+			String url = DatabricksAuthUtil.getJdbcUrl();
+			Connection conn = DriverManager.getConnection(url);
+			return conn;
+		} catch(Exception exp) {
+			throw new RuntimeException(exp);
+		}
+	}
+	
 	//
 	// database methods
 	//
@@ -48,7 +64,7 @@ public class DatabricksDbUtil {
 		if (databaseExists(schemaName, conn) == true) {
 			List<Map<String, String>> data = getTableNamesForSchema(schemaName, conn);
 			for (Map<String, String> row : data) {
-				String tableName = row.get("tableName");
+				String tableName = row.get("tablename");
 				dropTable(schemaName, tableName, conn);
 			}
 			String sqlString = "drop database if exists " + schemaName;
@@ -79,7 +95,7 @@ public class DatabricksDbUtil {
 	 */
 	public static void dropTable(String schemaName, String tableName, Connection conn) {
 		String sqlString = "drop table if exists " + schemaName + "." + tableName;
-		Database.update(sqlString, new String[] { schemaName, tableName }, conn);
+		Database.update(sqlString, conn);
 	}
 
 }
