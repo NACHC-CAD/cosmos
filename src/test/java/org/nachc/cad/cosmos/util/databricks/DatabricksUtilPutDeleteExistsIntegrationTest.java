@@ -22,25 +22,25 @@ public class DatabricksUtilPutDeleteExistsIntegrationTest {
 		File file = FileUtil.getFromProjectRoot(fileName);
 		log.info("Got file: " + file.getCanonicalPath());
 		// get the databricks target location
-		String filePath = DatabricksTestFiles.PROC_FILES_PATH + "/ochinproc.csv";
+		String dirPath = DatabricksTestFiles.PROC_FILES_PATH;
 		DatabricksFileUtilResponse resp;
 		// delete the file if it is there
 		log.info("Doing delete");
-		resp = DatabricksFileUtil.delete(filePath);
+		resp = DatabricksFileUtil.rmdir(dirPath);
 		log.info("Success: " + resp.isSuccess() + "\t" + resp.getStatusCode() + "\t" + resp.getResponse());
 		assertTrue(resp.isSuccess() == true);
 		// check to see the file is there
 		log.info("Doing exists");
-		resp = DatabricksFileUtil.exists(filePath);
+		resp = DatabricksFileUtil.exists(dirPath);
 		log.info("Success: " + resp.isSuccess() + "\t" + resp.getStatusCode() + "\t" + resp.getResponse());
 		assertTrue(resp.isSuccess() == true && resp.isFileExists() == false);
 		// add the file
 		log.info("Adding file");
-		resp = DatabricksFileUtil.put(filePath, file);
+		resp = DatabricksFileUtil.put(dirPath, file);
 		log.info("Success: " + resp.isSuccess() + "\t" + resp.getStatusCode() + "\t(" + resp.getFileSize() + "M in " + resp.getElapsedSeconds() + " sec)\t" + resp.getResponse());
 		// check to see the file is there
 		log.info("Doing exists");
-		resp = DatabricksFileUtil.exists(filePath);
+		resp = DatabricksFileUtil.exists(dirPath);
 		log.info("Success: " + resp.isSuccess() + "\t" + resp.getStatusCode() + "\t" + resp.getResponse());
 		assertTrue(resp.isSuccess() == true && resp.isFileExists() == true);
 		log.info("Done.");

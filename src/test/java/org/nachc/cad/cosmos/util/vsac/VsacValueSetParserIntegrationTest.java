@@ -21,8 +21,10 @@ public class VsacValueSetParserIntegrationTest {
 		File file = FileUtil.getFromProjectRoot("/src/test/resources/valueset/vsac/excel/" + fileName);
 		log.info("Got file: " + file.getCanonicalPath());
 		assertTrue(file.exists());
+		log.info("Parsing file");
 		Sheet metaData = VsacValueSetParser.parseFile(file);
 		File metaDataDir = new File(file.getParentFile().getParentFile(), "meta");
+		log.info("Writing csv file");
 		VsacValueSetParser.writeMetaData(metaDataDir, metaData);
 		log.info("Done.");
 	}

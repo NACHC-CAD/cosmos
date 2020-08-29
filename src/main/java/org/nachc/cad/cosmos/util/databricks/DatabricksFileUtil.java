@@ -14,23 +14,23 @@ public class DatabricksFileUtil {
 
 	/**
 	 * 
-	 * Query if a file exists at the given location on the server.
+	 * Query if a file exists at the given location on the server. Path can be a file or dir.  
 	 * 
 	 */
-	public static DatabricksFileUtilResponse exists(String filePath) {
+	public static DatabricksFileUtilResponse exists(String path) {
 		Timer timer = new Timer();
 		timer.start();
 		DatabricksFileUtilResponse rtn = new DatabricksFileUtilResponse();
 		String token = DatabricksAuthUtil.getToken();
 		String url = DatabricksAuthUtil.getApiUrl();
-		url = url + "/dbfs/get-status?path=" + filePath;
+		url = url + "/dbfs/get-status?path=" + path;
 		HttpRequestClient client = new HttpRequestClient(url);
 		client.setOauthToken(token);
 		client.doGet();
 		timer.stop();
 		rtn.init(client);
 		rtn.init(timer);
-		rtn.init(filePath);
+		rtn.init(path);
 		// modify the status to reflect the file not found status
 		int statusCode = client.getStatusCode();
 		if (statusCode == 200) {
@@ -52,10 +52,10 @@ public class DatabricksFileUtil {
 	 * Get a directory listing of the given path.
 	 * 
 	 */
-	public static String list(String path) {
+	public static String list(String dirPath) {
 		String token = DatabricksAuthUtil.getToken();
 		String url = DatabricksAuthUtil.getApiUrl();
-		url = url + "/dbfs/list?path=" + path;
+		url = url + "/dbfs/list?path=" + dirPath;
 		HttpRequestClient client = new HttpRequestClient(url);
 		client.setOauthToken(token);
 		client.doGet();
@@ -65,10 +65,11 @@ public class DatabricksFileUtil {
 
 	/**
 	 * 
-	 * Method to put a file on the server.
+	 * Method to put a file on the server. The filePath is the path with out the file name.  
+	 * The file will be placed at filePath/fileName location.  
 	 * 
 	 */
-	public static DatabricksFileUtilResponse put(String filePath, File file) {
+	public static DatabricksFileUtilResponse put(String dirPath, File file) {
 		Timer timer = new Timer();
 		timer.start();
 		String token = DatabricksAuthUtil.getToken();
@@ -76,6 +77,7 @@ public class DatabricksFileUtil {
 		url = url + "/dbfs/put";
 		HttpRequestClient client = new HttpRequestClient(url);
 		client.setOauthToken(token);
+		String filePath = dirPath + "/" + file.getName();
 		client.addFormData("path", filePath);
 		client.postFile(file, filePath);
 		// create rtn object
@@ -83,24 +85,6 @@ public class DatabricksFileUtil {
 		DatabricksFileUtilResponse rtn = new DatabricksFileUtilResponse();
 		rtn.init(client, file, timer, filePath);
 		return rtn;
-	}
-
-	/**
-	 * 
-	 * Method to put a file on the server.
-	 * 
-	 */
-	public static String putZip(String filePath, File file) {
-		String token = DatabricksAuthUtil.getToken();
-		String url = DatabricksAuthUtil.getApiUrl();
-		url = url + "/dbfs/put";
-		HttpRequestClient client = new HttpRequestClient(url);
-		client.setOauthToken(token);
-		client.addHeader("Content-Encoding", "gzip");
-		client.addFormData("path", filePath);
-		client.postFile(file, filePath);
-		String response = client.getResponse();
-		return response;
 	}
 
 	/**
@@ -126,7 +110,7 @@ public class DatabricksFileUtil {
 	 * Remove a directory.  
 	 * 
 	 */
-	public static DatabricksFileUtilResponse rmdir(String filePath) {
+	public static DatabricksFileUtilResponse rmdir(String dirPath) {
 		Timer timer = new Timer();
 		timer.start();
 		String token = DatabricksAuthUtil.getToken();
@@ -134,21 +118,12 @@ public class DatabricksFileUtil {
 		url = url + "/dbfs/delete";
 		HttpRequestClient client = new HttpRequestClient(url);
 		client.setOauthToken(token);
-		String json = "{\"path\":\"" + filePath + "\", \"recursive\":\"true\"}";
+		String json = "{\"path\":\"" + dirPath + "\", \"recursive\":\"true\"}";
 		client.doPost(json);
 		timer.stop();
 		DatabricksFileUtilResponse rtn = new DatabricksFileUtilResponse();
-		rtn.init(client, null, timer, filePath);
+		rtn.init(client, null, timer, dirPath);
 		return rtn;
-	}
-
-	/**
-	 * 
-	 * Replace the contents of a given Databricks directory with the given file.  
-	 * 
-	 */
-	public static DatabricksFileUtilResponse replace(String fileDirPath, File file) {
-		return null;
 	}
 	
 }
