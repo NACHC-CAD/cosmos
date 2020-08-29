@@ -11,11 +11,7 @@ import com.nach.core.util.excel.ExcelUtil;
 
 public class VsacValueSetParser {
 
-	public static Sheet parseFile(File file) {
-		return parseFile(file, null);
-	}
-
-	public static Sheet parseFile(File file, Sheet meta) {
+	public static Sheet parseFile(File excelFile, File csvDir, Sheet meta) {
 		if (meta == null) {
 			Workbook metaBook = ExcelUtil.createNewWorkbook();
 			meta = metaBook.createSheet("meta");
@@ -34,7 +30,7 @@ public class VsacValueSetParser {
 			ExcelUtil.addCol(row, "Purpose: Exclusion Criteria", 9);
 			ExcelUtil.addCol(row, "Note", 10);
 		}
-		Workbook srcBook = ExcelUtil.getWorkbook(file);
+		Workbook srcBook = ExcelUtil.getWorkbook(excelFile);
 		Workbook dstBook = ExcelUtil.createNewWorkbook();
 		// get the Value Set Info sheet
 		Sheet infoSheet = ExcelUtil.getSheet(srcBook, "Value Set Info");
@@ -71,7 +67,7 @@ public class VsacValueSetParser {
 			code = ExcelUtil.getStringValue(srcSheet, srcRow, 0);
 		}
 		// create the csv file
-		File csvFile = new File(file.getParentFile().getParentFile(), "csv/" + file.getName() + ".csv");
+		File csvFile = new File(csvDir + "/" + excelFile.getName() + ".csv");
 		ExcelUtil.saveAsCsv(dstSheet, csvFile);
 		// add to the metadata file
 		Sheet metaSheet = srcBook.getSheet("Value Set Info");
