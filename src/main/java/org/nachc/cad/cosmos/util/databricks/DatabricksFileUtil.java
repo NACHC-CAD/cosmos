@@ -18,6 +18,8 @@ public class DatabricksFileUtil {
 	 * 
 	 */
 	public static DatabricksFileUtilResponse exists(String filePath) {
+		Timer timer = new Timer();
+		timer.start();
 		DatabricksFileUtilResponse rtn = new DatabricksFileUtilResponse();
 		String token = DatabricksAuthUtil.getToken();
 		String url = DatabricksAuthUtil.getApiUrl();
@@ -25,13 +27,22 @@ public class DatabricksFileUtil {
 		HttpRequestClient client = new HttpRequestClient(url);
 		client.setOauthToken(token);
 		client.doGet();
+		timer.stop();
+		rtn.init(client);
+		rtn.init(timer);
+		rtn.init(filePath);
+		// modify the status to reflect the file not found status
 		int statusCode = client.getStatusCode();
-		rtn.setResponse(client.getResponse());
-		rtn.setStatusCode(statusCode);
 		if (statusCode == 200) {
 			rtn.setSuccess(true);
+			rtn.setFileExists(true);
 		} else {
 			rtn.setSuccess(false);
+			rtn.setFileExists(false);
+		}
+		if(statusCode == 404) {
+			rtn.setSuccess(true);
+			rtn.setFileExists(false);
 		}
 		return rtn;
 	}
@@ -106,9 +117,7 @@ public class DatabricksFileUtil {
 		String json = "{\"path\":\"" + filePath + "\"}";
 		client.doPost(json);
 		DatabricksFileUtilResponse rtn = new DatabricksFileUtilResponse();
-		rtn.setResponse(client.getResponse());
-		rtn.setStatusCode(client.getStatusCode());
-		rtn.setSuccess(rtn.getStatusCode() == 200);
+		rtn.init(client);
 		return rtn;
 	}
 

@@ -41,6 +41,8 @@ public class DatabricksFileUtilResponse {
 	
 	private boolean success = false;
 	
+	private boolean fileExists = false;
+	
 	public void init(HttpRequestClient client, File file, Timer timer, String databricksFilePath) {
 		init(client);
 		init(file);
@@ -51,7 +53,7 @@ public class DatabricksFileUtilResponse {
 	public void init(HttpRequestClient client) {
 		this.url = client.getUrl();
 		this.statusCode = client.getStatusCode();
-		this.response = client.getResponse();
+		this.response = client.getResponse().trim();
 		this.success = statusCode == 200;
 	}
 	
@@ -60,7 +62,7 @@ public class DatabricksFileUtilResponse {
 			try {
 				this.fileName = file.getName();
 				this.filePath = file.getCanonicalPath();
-				this.fileSize = file.length();
+				this.fileSize = file.length()/1000000;
 			} catch(Exception exp) {
 				throw new RuntimeException(exp);
 			}
@@ -75,4 +77,9 @@ public class DatabricksFileUtilResponse {
 		this.startTimeString = TimeUtil.getTimeString(startTime);
 		this.endTimeString = TimeUtil.getTimeString(endTime);
 	}
+	
+	public void init(String databricksFilePath) {
+		this.databricksFilePath = databricksFilePath;
+	}
+	
 }

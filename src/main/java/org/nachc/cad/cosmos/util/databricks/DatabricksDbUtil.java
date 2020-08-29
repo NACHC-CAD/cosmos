@@ -107,7 +107,6 @@ public class DatabricksDbUtil {
 		sqlString += "  path = \"" + databricksPath + "\" \n";
 		sqlString += ");";
 		Database.update(sqlString, conn);
-		// TODO: ADD THIS TO THE DATA LOADING PROCEDURE (JEG)
 	}
 
 }

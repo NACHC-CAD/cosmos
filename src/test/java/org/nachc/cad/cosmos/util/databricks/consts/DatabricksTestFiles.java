@@ -8,7 +8,9 @@ public class DatabricksTestFiles {
 
 	public static final String TEST_FILES_PATH = "/FileStore/tables/test/integration-testing";
 	
-	public static final String HELLO_WORLD_PATH = TEST_FILES_PATH + "/basic/hello-world.txt";
+	public static final String DEMO_FILES_PATH = TEST_FILES_PATH + "/demo";
+	
+	public static final String PROC_FILES_PATH = TEST_FILES_PATH + "/proc";
 	
 	public static File getTestFile() {
 		String fileName = "/src/test/resources/csv/dummy/hello-world.txt";
