@@ -15,7 +15,7 @@ public class DatabricksUtilDeleteIntegrationTest {
 		log.info("Starting test...");
 		String filePath = DatabricksTestFiles.HELLO_WORLD_PATH;
 		log.info("Doing delete...");
-		DatabricksResponse response = DatabricksUtil.delete(filePath);
+		DatabricksFileUtilResponse response = DatabricksFileUtil.delete(filePath);
 		log.info("Response: " + response.getResponse().trim());
 		log.info("Status: " + response.getStatusCode());
 		log.info("Success: " + response.isSuccess());

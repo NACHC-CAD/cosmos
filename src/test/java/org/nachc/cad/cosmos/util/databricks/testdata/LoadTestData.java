@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nachc.cad.cosmos.util.databricks.DatabricksResponse;
-import org.nachc.cad.cosmos.util.databricks.DatabricksUtil;
+import org.nachc.cad.cosmos.util.databricks.DatabricksFileUtilResponse;
+import org.nachc.cad.cosmos.util.databricks.DatabricksFileUtil;
 import org.nachc.cad.cosmos.util.databricks.auth.DatabricksAuthUtil;
 
 import com.nach.core.util.file.FileUtil;
@@ -15,20 +15,32 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LoadTestData {
 
+	private static final String DATABRICKS_FILE_PATH = "/FileStore/tables/test/demo-00";
+	
 	public static void main(String[] args) throws Exception {
 		log.info("Starting uploads...");
-		String fileName = DatabricksAuthUtil.getTestFilesDir();
-		String target = "/FileStore/tables/test/demo-02";
-		File testFilesRoot = new File(fileName);
-		uploadTables(testFilesRoot, target, "million-hearts");
-		uploadTables(testFilesRoot, target, "womens-health");
+		String dirName = DatabricksAuthUtil.getTestFilesDir();
+		dirName = dirName + "\\_PROJECT\\projects";
+		File dir = new File(dirName);
+		deleteExistingProject();
+		// uploadTables(dir, DATABRICKS_FILE_PATH, "million-hearts");
+		uploadTables(dir, DATABRICKS_FILE_PATH, "womens-health");
 		log.info("Done.");
 	}
 
+	private static void deleteExistingProject() {
+		log.info("-------------------------------------------------------------------");
+		log.info("* * * REMOVING DIRECTORY FROM DATABRICKS ENV * * *");
+		log.info("Path: " + DATABRICKS_FILE_PATH);
+		DatabricksFileUtilResponse resp = DatabricksFileUtil.rmdir(DATABRICKS_FILE_PATH);
+		log.info(resp.getStatusCode() + "\t" + resp.getResponse());
+		log.info("Done with delete.");
+	}
+	
 	private static void uploadTables(File testFilesRoot, String target, String projectName) {
 		log.info("-------------------------------------------------------------------");
 		log.info("Starting project upload: " + projectName);
-		ArrayList<DatabricksResponse> responseList = new ArrayList<DatabricksResponse>();
+		ArrayList<DatabricksFileUtilResponse> responseList = new ArrayList<DatabricksFileUtilResponse>();
 		testFilesRoot = new File(testFilesRoot, projectName);
 		target = target + "/" + projectName;
 		uploadFiles(testFilesRoot, target, "demo", responseList);
@@ -45,7 +57,7 @@ public class LoadTestData {
 		msg += "* \n";
 		msg += "* ---------------------\n";
 		msg += "\n";
-		for(DatabricksResponse response : responseList) {
+		for(DatabricksFileUtilResponse response : responseList) {
 			msg += response.isSuccess() + "\t" + response.getResponse().trim() + "\n";
 		}
 		msg += "\n\n\n";
@@ -53,7 +65,7 @@ public class LoadTestData {
 		log.info("Done.");
 	}
 
-	private static void uploadFiles(File src, String target, String folderName, List<DatabricksResponse> results) {
+	private static void uploadFiles(File src, String target, String folderName, List<DatabricksFileUtilResponse> results) {
 		log.info("=========================");
 		log.info("Processing directory: " + folderName);
 		src = new File(src, folderName);
@@ -68,7 +80,7 @@ public class LoadTestData {
 			log.info("\t" + file.getName());
 			log.info("\t" + fileTarget);
 			log.info("\t" + "DOING UPLOAD...");
-			DatabricksResponse resp = DatabricksUtil.put(fileTarget, file);
+			DatabricksFileUtilResponse resp = DatabricksFileUtil.put(fileTarget, file);
 			log.info("\t" + resp.getResponse().trim());
 			log.info("\t" + resp.getStatusCode());
 			log.info("\t" + resp.isSuccess());

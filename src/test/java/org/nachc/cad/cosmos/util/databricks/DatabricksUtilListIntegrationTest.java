@@ -14,7 +14,7 @@ public class DatabricksUtilListIntegrationTest {
 	@Test
 	public void shouldGetFileList() {
 		String path = "/";
-		String fileListJson = DatabricksUtil.list(path);
+		String fileListJson = DatabricksFileUtil.list(path);
 		fileListJson = JsonUtil.prettyPrint(fileListJson);
 		log.info("Got file list: \n" + fileListJson);
 		List<String> files = JsonUtil.getJsonArray(fileListJson, "files");

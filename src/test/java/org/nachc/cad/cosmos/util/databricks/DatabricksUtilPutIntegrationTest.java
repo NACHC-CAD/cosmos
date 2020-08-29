@@ -22,9 +22,9 @@ public class DatabricksUtilPutIntegrationTest {
 		File file = FileUtil.getFromProjectRoot(fileName);
 		log.info("Got file: " + file.getCanonicalPath());
 		log.info("Doing delete");
-		DatabricksUtil.delete(filePath);
-		DatabricksUtil.put(filePath, file);
-		DatabricksResponse resp = DatabricksUtil.exists(filePath);
+		DatabricksFileUtil.delete(filePath);
+		DatabricksFileUtil.put(filePath, file);
+		DatabricksFileUtilResponse resp = DatabricksFileUtil.exists(filePath);
 		log.info("Response \n" + resp.getResponse());
 		log.info("Status: " + resp.getStatusCode());
 		log.info("Success: " + resp.isSuccess());

@@ -5,19 +5,20 @@ import java.io.File;
 import org.nachc.cad.cosmos.util.databricks.auth.DatabricksAuthUtil;
 
 import com.nach.core.util.http.HttpRequestClient;
+import com.nach.core.util.time.Timer;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class DatabricksUtil {
+public class DatabricksFileUtil {
 
 	/**
 	 * 
 	 * Query if a file exists at the given location on the server.
 	 * 
 	 */
-	public static DatabricksResponse exists(String filePath) {
-		DatabricksResponse rtn = new DatabricksResponse();
+	public static DatabricksFileUtilResponse exists(String filePath) {
+		DatabricksFileUtilResponse rtn = new DatabricksFileUtilResponse();
 		String token = DatabricksAuthUtil.getToken();
 		String url = DatabricksAuthUtil.getApiUrl();
 		url = url + "/dbfs/get-status?path=" + filePath;
@@ -56,7 +57,9 @@ public class DatabricksUtil {
 	 * Method to put a file on the server.
 	 * 
 	 */
-	public static DatabricksResponse put(String filePath, File file) {
+	public static DatabricksFileUtilResponse put(String filePath, File file) {
+		Timer timer = new Timer();
+		timer.start();
 		String token = DatabricksAuthUtil.getToken();
 		String url = DatabricksAuthUtil.getApiUrl();
 		url = url + "/dbfs/put";
@@ -64,10 +67,10 @@ public class DatabricksUtil {
 		client.setOauthToken(token);
 		client.addFormData("path", filePath);
 		client.postFile(file, filePath);
-		DatabricksResponse rtn = new DatabricksResponse();
-		rtn.setResponse(client.getResponse());
-		rtn.setStatusCode(client.getStatusCode());
-		rtn.setSuccess(rtn.getStatusCode() == 200);
+		// create rtn object
+		timer.stop();
+		DatabricksFileUtilResponse rtn = new DatabricksFileUtilResponse();
+		rtn.init(client, file, timer, filePath);
 		return rtn;
 	}
 
@@ -94,7 +97,7 @@ public class DatabricksUtil {
 	 * Delete a file from the server.
 	 * 
 	 */
-	public static DatabricksResponse delete(String filePath) {
+	public static DatabricksFileUtilResponse delete(String filePath) {
 		String token = DatabricksAuthUtil.getToken();
 		String url = DatabricksAuthUtil.getApiUrl();
 		url = url + "/dbfs/delete";
@@ -102,26 +105,41 @@ public class DatabricksUtil {
 		client.setOauthToken(token);
 		String json = "{\"path\":\"" + filePath + "\"}";
 		client.doPost(json);
-		DatabricksResponse rtn = new DatabricksResponse();
+		DatabricksFileUtilResponse rtn = new DatabricksFileUtilResponse();
 		rtn.setResponse(client.getResponse());
 		rtn.setStatusCode(client.getStatusCode());
 		rtn.setSuccess(rtn.getStatusCode() == 200);
 		return rtn;
 	}
 
-	public static DatabricksResponse rmdir(String filePath) {
+	/**
+	 * 
+	 * Remove a directory.  
+	 * 
+	 */
+	public static DatabricksFileUtilResponse rmdir(String filePath) {
+		Timer timer = new Timer();
+		timer.start();
 		String token = DatabricksAuthUtil.getToken();
 		String url = DatabricksAuthUtil.getApiUrl();
 		url = url + "/dbfs/delete";
 		HttpRequestClient client = new HttpRequestClient(url);
 		client.setOauthToken(token);
-		String json = "{\"path\":\"" + filePath + "\"}";
+		String json = "{\"path\":\"" + filePath + "\", \"recursive\":\"true\"}";
 		client.doPost(json);
-		DatabricksResponse rtn = new DatabricksResponse();
-		rtn.setResponse(client.getResponse());
-		rtn.setStatusCode(client.getStatusCode());
-		rtn.setSuccess(rtn.getStatusCode() == 200);
+		timer.stop();
+		DatabricksFileUtilResponse rtn = new DatabricksFileUtilResponse();
+		rtn.init(client, null, timer, filePath);
 		return rtn;
 	}
 
+	/**
+	 * 
+	 * Replace the contents of a given Databricks directory with the given file.  
+	 * 
+	 */
+	public static DatabricksFileUtilResponse replace(String fileDirPath, File file) {
+		return null;
+	}
+	
 }

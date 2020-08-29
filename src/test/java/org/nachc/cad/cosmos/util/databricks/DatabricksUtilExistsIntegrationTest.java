@@ -19,16 +19,16 @@ public class DatabricksUtilExistsIntegrationTest {
 		String filePath = DatabricksTestFiles.HELLO_WORLD_PATH;
 		// delete the existing file and assert that it is gone
 		log.info("Doing delete");
-		DatabricksUtil.delete(filePath);
-		DatabricksResponse resp = DatabricksUtil.exists(filePath);
+		DatabricksFileUtil.delete(filePath);
+		DatabricksFileUtilResponse resp = DatabricksFileUtil.exists(filePath);
 		log.info("Response \n" + resp.getResponse());
 		log.info("Status: " + resp.getStatusCode());
 		log.info("Success: " + resp.isSuccess());
 		assertTrue(resp.isSuccess() == false);
 		// add the file and assert that it exists
 		log.info("Doing put");
-		DatabricksUtil.put(filePath, file);
-		resp = DatabricksUtil.exists(filePath);
+		DatabricksFileUtil.put(filePath, file);
+		resp = DatabricksFileUtil.exists(filePath);
 		log.info("Response \n" + resp.getResponse());
 		log.info("Status: " + resp.getStatusCode());
 		log.info("Success: " + resp.isSuccess());
