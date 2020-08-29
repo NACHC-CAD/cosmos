@@ -13,31 +13,31 @@ public class DatabricksDbUtil {
 	//
 	// connection
 	//
-	
+
 	public static Connection getConnection() {
 		try {
 			String url = DatabricksAuthUtil.getJdbcUrl();
 			Connection conn = DriverManager.getConnection(url);
 			return conn;
-		} catch(Exception exp) {
+		} catch (Exception exp) {
 			throw new RuntimeException(exp);
 		}
 	}
-	
+
 	//
 	// database methods
 	//
-	
+
 	/**
 	 * 
-	 * Does a database exist.  
+	 * Does a database exist.
 	 * 
 	 */
 	public static boolean databaseExists(String schemaName, Connection conn) {
 		List<Map<String, String>> data = showSchemas(conn);
-		for(Map<String, String> row : data) {
+		for (Map<String, String> row : data) {
 			String namespace = row.get("namespace");
-			if(schemaName.equalsIgnoreCase(namespace)) {
+			if (schemaName.equalsIgnoreCase(namespace)) {
 				return true;
 			}
 		}
@@ -46,7 +46,7 @@ public class DatabricksDbUtil {
 
 	/**
 	 * 
-	 * Get a list of the existing databases.  
+	 * Get a list of the existing databases.
 	 * 
 	 */
 	public static List<Map<String, String>> showSchemas(Connection conn) {
@@ -57,7 +57,7 @@ public class DatabricksDbUtil {
 
 	/**
 	 * 
-	 * Drop a database.  
+	 * Drop a database.
 	 * 
 	 */
 	public static void dropDatabase(String schemaName, Connection conn) {
@@ -75,10 +75,10 @@ public class DatabricksDbUtil {
 	//
 	// table methods
 	//
-	
+
 	/**
 	 * 
-	 * Get a list of tables for a given schema.  
+	 * Get a list of tables for a given schema.
 	 * 
 	 */
 	public static List<Map<String, String>> showTables(String schemaName, Connection conn) {
@@ -90,12 +90,24 @@ public class DatabricksDbUtil {
 
 	/**
 	 * 
-	 * Drop a table.  
+	 * Drop a table.
 	 * 
 	 */
 	public static void dropTable(String schemaName, String tableName, Connection conn) {
 		String sqlString = "drop table if exists " + schemaName + "." + tableName;
 		Database.update(sqlString, conn);
+	}
+
+	public static void createCsvTableForDir(String databricksPath, String schemaName, String tableName, Connection conn) {
+		String sqlString = "";
+		sqlString += "create table " + tableName + " using csv options ( \n";
+		sqlString += "  header = \"true\", \n";
+		sqlString += "  delimiter = \",\", \n";
+		sqlString += "  inferSchema = \"false\", \n";
+		sqlString += "  path = \"" + databricksPath + "\" \n";
+		sqlString += ");";
+		Database.update(sqlString, conn);
+		// TODO: ADD THIS TO THE DATA LOADING PROCEDURE (JEG)
 	}
 
 }
