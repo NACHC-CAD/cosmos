@@ -34,7 +34,7 @@ public class DatabricksDbUtil {
 	 * 
 	 */
 	public static boolean databaseExists(String schemaName, Connection conn) {
-		List<Map<String, String>> data = getDatabases(conn);
+		List<Map<String, String>> data = showSchemas(conn);
 		for(Map<String, String> row : data) {
 			String namespace = row.get("namespace");
 			if(schemaName.equalsIgnoreCase(namespace)) {
@@ -49,7 +49,7 @@ public class DatabricksDbUtil {
 	 * Get a list of the existing databases.  
 	 * 
 	 */
-	public static List<Map<String, String>> getDatabases(Connection conn) {
+	public static List<Map<String, String>> showSchemas(Connection conn) {
 		String sqlString = "show schemas";
 		List<Map<String, String>> rtn = Database.query(sqlString, conn);
 		return rtn;
@@ -62,7 +62,7 @@ public class DatabricksDbUtil {
 	 */
 	public static void dropDatabase(String schemaName, Connection conn) {
 		if (databaseExists(schemaName, conn) == true) {
-			List<Map<String, String>> data = getTableNamesForSchema(schemaName, conn);
+			List<Map<String, String>> data = showTables(schemaName, conn);
 			for (Map<String, String> row : data) {
 				String tableName = row.get("tablename");
 				dropTable(schemaName, tableName, conn);
@@ -81,7 +81,7 @@ public class DatabricksDbUtil {
 	 * Get a list of tables for a given schema.  
 	 * 
 	 */
-	public static List<Map<String, String>> getTableNamesForSchema(String schemaName, Connection conn) {
+	public static List<Map<String, String>> showTables(String schemaName, Connection conn) {
 		String sqlString;
 		sqlString = "show tables in " + schemaName;
 		List<Map<String, String>> rtn = Database.query(sqlString, conn);

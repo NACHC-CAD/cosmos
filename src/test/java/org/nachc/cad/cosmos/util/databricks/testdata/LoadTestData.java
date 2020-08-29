@@ -24,7 +24,7 @@ public class LoadTestData {
 		File dir = new File(dirName);
 		deleteExistingProject();
 		// uploadTables(dir, DATABRICKS_FILE_PATH, "million-hearts");
-		uploadTables(dir, DATABRICKS_FILE_PATH, "womens-health");
+		// uploadTables(dir, DATABRICKS_FILE_PATH, "womens-health");
 		log.info("Done.");
 	}
 
