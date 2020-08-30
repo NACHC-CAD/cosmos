@@ -3,6 +3,7 @@ package org.nachc.cad.cosmos.util.databricks;
 import java.io.File;
 
 import org.nachc.cad.cosmos.util.databricks.auth.DatabricksAuthUtil;
+import org.nachc.cad.cosmos.util.databricks.exception.DatabricksFileException;
 
 import com.nach.core.util.http.HttpRequestClient;
 import com.nach.core.util.time.Timer;
@@ -84,6 +85,10 @@ public class DatabricksFileUtil {
 		timer.stop();
 		DatabricksFileUtilResponse rtn = new DatabricksFileUtilResponse();
 		rtn.init(client, file, timer, filePath);
+		if(rtn.isSuccess() == false) {
+			log.info(rtn.isSuccess() + ": (" + rtn.getStatusCode() + ") " + rtn.getDatabricksFilePath() + "\t" + rtn.getResponse());
+			throw new RuntimeException("Put failed for " + dirPath, new DatabricksFileException(rtn));
+		}
 		return rtn;
 	}
 
