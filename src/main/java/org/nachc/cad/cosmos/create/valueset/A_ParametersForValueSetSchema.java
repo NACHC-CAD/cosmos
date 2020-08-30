@@ -3,20 +3,22 @@ package org.nachc.cad.cosmos.create.valueset;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class A_PametersForValueSetSchema {
+public class A_ParametersForValueSetSchema {
 
 	public static final String SCHEMA_NAME = "value_set";
+
+	public static final String DATABRICKS_FILE_PATH = "/FileStore/tables/prod/global/value_set";
 	
-	public static final String DATABRICKS_FILE_PATH = "FileStore/tables/prod/global/value_set";
-	
+	public static final String DATABRICKS_META_FILE_PATH = "/FileStore/tables/prod/global/value_set_meta";
+
 	public static final String FILE_ROOT = "C:\\_WORKSPACES\\nachc\\value-sets";
-	
+
 	public static final String EXCEL_FILE_ROOT = FILE_ROOT + "\\excel";
-	
+
 	public static final String CSV_FILE_ROOT = FILE_ROOT + "\\csv";
-	
+
 	public static final String META_FILE_ROOT = FILE_ROOT + "\\meta";
-	
+
 	public static void logParameters() {
 		log.info("-------------------------------------------------------------");
 		log.info("Parameters: ");
@@ -29,5 +31,5 @@ public class A_PametersForValueSetSchema {
 		log.info("End parameters. ");
 		log.info("-------------------------------------------------------------");
 	}
-	
+
 }

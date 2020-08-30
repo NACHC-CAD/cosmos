@@ -1,4 +1,4 @@
-package org.nachc.cad.cosmos.create.valueset;
+ package org.nachc.cad.cosmos.create.valueset;
 
 import java.io.File;
 import java.util.List;
@@ -13,14 +13,14 @@ import com.nach.core.util.file.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class C_ParseValueSetFiles {
+public class E_ParseValueSetFiles {
 
 	public static void parse() {
 		log.info("Starting parse...");
 		// get the locations
-		File excelDir = new File(A_PametersForValueSetSchema.EXCEL_FILE_ROOT);
-		File csvDir = new File(A_PametersForValueSetSchema.CSV_FILE_ROOT);
-		File metaDir = new File(A_PametersForValueSetSchema.META_FILE_ROOT);
+		File excelDir = new File(A_ParametersForValueSetSchema.EXCEL_FILE_ROOT);
+		File csvDir = new File(A_ParametersForValueSetSchema.CSV_FILE_ROOT);
+		File metaDir = new File(A_ParametersForValueSetSchema.META_FILE_ROOT);
 		// get the excel files
 		List<File> files = FileUtil.listFiles(excelDir, "*.xlsx");
 		// create the metadata excel objects

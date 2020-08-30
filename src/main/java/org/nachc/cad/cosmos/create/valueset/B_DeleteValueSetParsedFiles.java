@@ -13,12 +13,12 @@ public class B_DeleteValueSetParsedFiles {
 		try {
 			File file;
 			// delete csv files
-			file = new File(A_PametersForValueSetSchema.CSV_FILE_ROOT);
-			log.info("Clearing contents of: " + A_PametersForValueSetSchema.CSV_FILE_ROOT);
+			file = new File(A_ParametersForValueSetSchema.CSV_FILE_ROOT);
+			log.info("Clearing contents of: " + A_ParametersForValueSetSchema.CSV_FILE_ROOT);
 			FileUtil.clearContents(file);
 			log.info("File exists: " + file.exists() + "\t" + file.getCanonicalPath());
 			// delete meta file
-			file = new File(A_PametersForValueSetSchema.META_FILE_ROOT);
+			file = new File(A_ParametersForValueSetSchema.META_FILE_ROOT);
 			log.info("Clearing contents of: " + file.getCanonicalFile());
 			FileUtil.clearContents(file);
 			log.info("File exists: " + file.exists() + "\t" + file.getCanonicalPath());

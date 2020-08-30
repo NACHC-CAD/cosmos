@@ -8,9 +8,12 @@ public class Z_CreateValueSetSchema {
 	public static void main(String[] args) {
 		log.info("=============================================================");
 		log.info("* * * CREATING SCHEMA FOR VALUE_SET * * *");
-		A_PametersForValueSetSchema.logParameters();
+		A_ParametersForValueSetSchema.logParameters();
 		B_DeleteValueSetParsedFiles.deleteFiles();
-		C_ParseValueSetFiles.parse();
+		C_DeleteValueSetDatabricksFiles.deleteFiles();
+		D_DeleteValueSetDatabaseObjects.delete();
+		E_ParseValueSetFiles.parse();
+		F_PostValueSetFilesToDatabricks.post();
 		log.info("* * * DONE CREATING SCHEMA FOR VALUE_SET * * *");
 		log.info("=============================================================");
 		log.info("Done.");
