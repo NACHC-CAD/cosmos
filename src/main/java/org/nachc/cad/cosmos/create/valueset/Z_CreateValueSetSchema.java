@@ -14,6 +14,7 @@ public class Z_CreateValueSetSchema {
 		D_DeleteValueSetDatabaseObjects.delete();
 		E_ParseValueSetFiles.parse();
 		F_PostValueSetFilesToDatabricks.post();
+		G_CreateValueSetSchema.create();
 		log.info("* * * DONE CREATING SCHEMA FOR VALUE_SET * * *");
 		log.info("=============================================================");
 		log.info("Done.");

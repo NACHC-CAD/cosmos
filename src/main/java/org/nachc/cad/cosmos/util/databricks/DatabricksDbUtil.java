@@ -72,6 +72,16 @@ public class DatabricksDbUtil {
 		}
 	}
 
+	/**
+	 * 
+	 * Create a database.
+	 * 
+	 */
+	public static void createDatabase(String databaseName, Connection conn) {
+		String sqlString = "create database " + databaseName;
+		Database.update(sqlString, conn);
+	}
+
 	//
 	// table methods
 	//
@@ -99,13 +109,15 @@ public class DatabricksDbUtil {
 	}
 
 	public static void createCsvTableForDir(String databricksPath, String schemaName, String tableName, Connection conn) {
-		String sqlString = "";
-		sqlString += "create table " + tableName + " using csv options ( \n";
+		String sqlString = "\n";
+		sqlString += "create table " + schemaName + "." + tableName + " \n";
+		sqlString += "using csv \n";
+		sqlString += "options ( \n";
 		sqlString += "  header = \"true\", \n";
 		sqlString += "  delimiter = \",\", \n";
 		sqlString += "  inferSchema = \"false\", \n";
 		sqlString += "  path = \"" + databricksPath + "\" \n";
-		sqlString += ");";
+		sqlString += ") \n";
 		Database.update(sqlString, conn);
 	}
 
