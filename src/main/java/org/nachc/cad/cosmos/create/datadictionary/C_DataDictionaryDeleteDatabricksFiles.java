@@ -1,4 +1,4 @@
-package org.nachc.cad.cosmos.create.rxnorm;
+package org.nachc.cad.cosmos.create.datadictionary;
 
 import org.nachc.cad.cosmos.util.databricks.DatabricksFileUtil;
 import org.nachc.cad.cosmos.util.databricks.DatabricksFileUtilResponse;
@@ -6,12 +6,18 @@ import org.nachc.cad.cosmos.util.databricks.DatabricksFileUtilResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class B_DeleteRxNormDatabricksFiles {
+public class C_DataDictionaryDeleteDatabricksFiles {
 
-	public static void delete() {
-		String dirName = A_ParametersForRxNorm.RX_NORM_DATABRICKS_DIR;
+	public static void main(String[] args) {
+		deleteFiles();
+	}
+	
+	public static void deleteFiles() {
+		String dirName;
+		DatabricksFileUtilResponse resp;
+		dirName = A_DataDictionaryParameters.DATABRICKS_DIR_NAME;
 		log.info("Deleting from: " + dirName);
-		DatabricksFileUtilResponse resp = DatabricksFileUtil.rmdir(dirName);
+		resp = DatabricksFileUtil.rmdir(dirName);
 		log.info(resp.isSuccess() + ": (" + resp.getStatusCode() + ") " + resp.getDatabricksFilePath() + "\t" + resp.getResponse());
 		log.info("Done with delete");
 	}

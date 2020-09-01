@@ -8,12 +8,12 @@ import org.nachc.cad.cosmos.util.databricks.DatabricksFileUtilResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class C_PostRxNormFilesToDatabricks {
+public class D_RxNormPostFilesToDatabricks {
 
 	public static void post() {
 		log.info("Starting upload to databricks");
-		String databricksDir = A_ParametersForRxNorm.RX_NORM_DATABRICKS_DIR;
-		String rrfDir = A_ParametersForRxNorm.RX_NORM_DIR;
+		String databricksDir = A_RxNormParameters.DATABRICKS_DIR;
+		String rrfDir = A_RxNormParameters.CSV_DIR;
 		DatabricksFileUtilResponse resp;
 		// upload conso
 		File consoFile = new File(rrfDir, "RXNCONSO.RRF");

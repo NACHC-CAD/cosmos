@@ -109,12 +109,16 @@ public class DatabricksDbUtil {
 	}
 
 	public static void createCsvTableForDir(String databricksPath, String schemaName, String tableName, Connection conn) {
+		createCsvTableForDir(databricksPath, schemaName, tableName, ",", conn);
+	}
+
+	public static void createCsvTableForDir(String databricksPath, String schemaName, String tableName, String delim, Connection conn) {
 		String sqlString = "\n";
 		sqlString += "create table " + schemaName + "." + tableName + " \n";
 		sqlString += "using csv \n";
 		sqlString += "options ( \n";
 		sqlString += "  header = \"true\", \n";
-		sqlString += "  delimiter = \",\", \n";
+		sqlString += "  delimiter = \"" + delim + "\", \n";
 		sqlString += "  inferSchema = \"false\", \n";
 		sqlString += "  path = \"" + databricksPath + "\" \n";
 		sqlString += ") \n";

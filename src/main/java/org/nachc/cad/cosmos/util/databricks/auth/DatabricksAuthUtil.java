@@ -8,6 +8,10 @@ public class DatabricksAuthUtil {
 
 	private static final Properties PROPS = PropertiesUtil.getAsProperties("/auth/auth.properties");
 	
+	public static String getVsacToken() {
+		return PROPS.getProperty("vsac-token");
+	}
+	
 	public static String getApiUrl() {
 		return PROPS.getProperty("databricks-api-url");
 	}

@@ -15,6 +15,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class E_ParseValueSetFiles {
 
+	public static void main(String[] args) {
+		parse();
+	}
+	
 	public static void parse() {
 		log.info("Starting parse...");
 		// get the locations

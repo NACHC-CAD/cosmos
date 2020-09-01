@@ -45,7 +45,7 @@ public class CovidDataDictionaryParser {
 			ExcelUtil.addCol(row, ExcelUtil.getStringValue(sheet, srcRow, 1), 3);
 			ExcelUtil.addCol(row, ExcelUtil.getStringValue(sheet, srcRow, 2), 4);
 			ExcelUtil.addCol(row, ExcelUtil.getStringValue(sheet, srcRow, 3), 5);
-			ExcelUtil.addCol(row, ExcelUtil.getStringValue(sheet, srcRow, 4), 6);
+			ExcelUtil.addCol(row, ExcelUtil.getStringValue(sheet, srcRow, 5), 6);
 			// get the next row
 			srcRow++;
 			dstRow++;

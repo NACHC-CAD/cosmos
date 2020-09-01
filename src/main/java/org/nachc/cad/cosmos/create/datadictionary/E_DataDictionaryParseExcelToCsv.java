@@ -9,7 +9,7 @@ import com.nach.core.util.file.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class E_DataDictionaryParseToCsv {
+public class E_DataDictionaryParseExcelToCsv {
 
 	public static void main(String[] args) {
 		parse();
