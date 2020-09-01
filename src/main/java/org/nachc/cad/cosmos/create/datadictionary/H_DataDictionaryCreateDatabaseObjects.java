@@ -26,7 +26,7 @@ public class H_DataDictionaryCreateDatabaseObjects {
 			String tableName;
 			// create value_set table
 			tableName = "data_dictionary";
-			path = A_DataDictionaryParameters.DATABRICKS_DIR_NAME;
+			path = A_DataDictionaryParameters.DATABRICKS_DIR_NAME + "/*.csv";
 			log.info("Dropping table (" + schemaName + "." + tableName + ") for " + path);
 			DatabricksDbUtil.dropTable(schemaName, tableName, conn);
 			log.info("Creating table (" + schemaName + "." + tableName + ") for " + path);

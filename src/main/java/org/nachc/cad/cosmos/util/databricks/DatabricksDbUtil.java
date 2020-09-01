@@ -8,6 +8,9 @@ import java.util.Map;
 import org.nachc.cad.cosmos.util.databricks.auth.DatabricksAuthUtil;
 import org.yaorma.database.Database;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class DatabricksDbUtil {
 
 	//
@@ -113,16 +116,35 @@ public class DatabricksDbUtil {
 	}
 
 	public static void createCsvTableForDir(String databricksPath, String schemaName, String tableName, String delim, Connection conn) {
+		log.info("Dropping if exists...");
+		dropTable(schemaName, tableName, conn);
 		String sqlString = "\n";
 		sqlString += "create table " + schemaName + "." + tableName + " \n";
 		sqlString += "using csv \n";
 		sqlString += "options ( \n";
 		sqlString += "  header = \"true\", \n";
-		sqlString += "  delimiter = \"" + delim + "\", \n";
+		if(delim == null) {
+			sqlString += "  inferDelimiter = \"true\", \n";
+		} else {
+			sqlString += "  delimiter = \"" + delim + "\", \n";
+		}
 		sqlString += "  inferSchema = \"false\", \n";
 		sqlString += "  path = \"" + databricksPath + "\" \n";
 		sqlString += ") \n";
+		log.info("\n" + sqlString);
 		Database.update(sqlString, conn);
+		refreshTable(schemaName, tableName, conn);
 	}
 
+	public static void refreshTable(String schemaName, String tableName, Connection conn) {
+		String sqlString = "refresh table " + schemaName + "." + tableName;
+		log.info("Refreshing table: " + sqlString);
+		Database.update(sqlString, conn);
+	}
+	
+	public static void close(Connection conn) {
+		Database.close(conn);
+	}
+	
+	
 }

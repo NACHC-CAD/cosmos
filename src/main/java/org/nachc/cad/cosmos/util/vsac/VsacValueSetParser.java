@@ -18,17 +18,17 @@ public class VsacValueSetParser {
 		}
 		if (meta.getLastRowNum() == 0) {
 			Row row = meta.createRow(0);
-			ExcelUtil.addCol(row, "Value Set Name", 0);
-			ExcelUtil.addCol(row, "Code System", 1);
-			ExcelUtil.addCol(row, "OID", 2);
-			ExcelUtil.addCol(row, "Type", 3);
-			ExcelUtil.addCol(row, "Definition Version", 4);
-			ExcelUtil.addCol(row, "Steward", 5);
-			ExcelUtil.addCol(row, "Purpose: Clinical Focus", 6);
-			ExcelUtil.addCol(row, "Purpose: Data element Scope", 7);
-			ExcelUtil.addCol(row, "Purpose: Inclusion Criteria", 8);
-			ExcelUtil.addCol(row, "Purpose: Exclusion Criteria", 9);
-			ExcelUtil.addCol(row, "Note", 10);
+			ExcelUtil.addCol(row, "value_set_name", 0);
+			ExcelUtil.addCol(row, "code_system", 1);
+			ExcelUtil.addCol(row, "value_set_oid", 2);
+			ExcelUtil.addCol(row, "type", 3);
+			ExcelUtil.addCol(row, "definition_version", 4);
+			ExcelUtil.addCol(row, "steward", 5);
+			ExcelUtil.addCol(row, "purpose_clinical_focus", 6);
+			ExcelUtil.addCol(row, "purpose_data_element_scope", 7);
+			ExcelUtil.addCol(row, "purpose_inclusion_criteria", 8);
+			ExcelUtil.addCol(row, "purpose_exclusion_criteria", 9);
+			ExcelUtil.addCol(row, "note", 10);
 		}
 		Workbook srcBook = ExcelUtil.getWorkbook(excelFile);
 		Workbook dstBook = ExcelUtil.createNewWorkbook();
@@ -54,9 +54,9 @@ public class VsacValueSetParser {
 			row.createCell(6);
 			row.createCell(7);
 			if (dstRow == 0) {
-				ExcelUtil.setStringValue(dstSheet, "Value Set Name", dstRow, 5);
-				ExcelUtil.setStringValue(dstSheet, "Code System", dstRow, 6);
-				ExcelUtil.setStringValue(dstSheet, "OID", dstRow, 7);
+				ExcelUtil.setStringValue(dstSheet, "value_set_name", dstRow, 5);
+				ExcelUtil.setStringValue(dstSheet, "code_system", dstRow, 6);
+				ExcelUtil.setStringValue(dstSheet, "oid", dstRow, 7);
 			} else {
 				ExcelUtil.setStringValue(dstSheet, valueSetName, dstRow, 5);
 				ExcelUtil.setStringValue(dstSheet, codeSystem, dstRow, 6);

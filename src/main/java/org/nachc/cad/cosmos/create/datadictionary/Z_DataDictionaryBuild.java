@@ -3,7 +3,7 @@ package org.nachc.cad.cosmos.create.datadictionary;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class Z_CreateValueSetSchema {
+public class Z_DataDictionaryBuild {
 
 	public static void main(String[] args) {
 		log.info("=============================================================");

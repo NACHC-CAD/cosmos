@@ -9,10 +9,11 @@ public class Z_RxNormBuild {
 		log.info("=============================================================");
 		log.info("* * * CREATING SCHEMA FOR RXNORM * * *");
 		A_RxNormParameters.log();
-		log.info("Deleting databricks files");
 		B_RxNormDeleteDatabricksFiles.delete();
-		log.info("Adding files to databricks");
+		C_RxNormDeleteDatabaseObjects.delete();
 		D_RxNormPostFilesToDatabricks.post();
+		E_RxNormCreateSchema.create();
+		H_RxNormCreateDatabaseObjects.create();
 		log.info("* * * DONE CREATING SCHEMA FOR RXNORM * * *");
 		log.info("=============================================================");
 		log.info("Done.");

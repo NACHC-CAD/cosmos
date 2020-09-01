@@ -1,10 +1,13 @@
 package org.nachc.cad.cosmos.util.databricks;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.nachc.cad.cosmos.util.databricks.auth.DatabricksAuthUtil;
 import org.nachc.cad.cosmos.util.databricks.exception.DatabricksFileException;
 
+import com.nach.core.util.file.FileUtil;
 import com.nach.core.util.http.HttpRequestClient;
 import com.nach.core.util.time.Timer;
 
@@ -64,6 +67,20 @@ public class DatabricksFileUtil {
 		return response;
 	}
 
+	public static List<DatabricksFileUtilResponse> put(String dirPath, File dir, String pattern) {
+		ArrayList<DatabricksFileUtilResponse> rtn = new ArrayList<DatabricksFileUtilResponse>();
+		List<File> files = FileUtil.listFiles(dir, pattern);
+		int cnt = 0;
+		for(File file : files) {
+			cnt++;
+			log.info("File " + cnt + " of " + files.size());
+			DatabricksFileUtilResponse resp = put(dirPath, file);
+			rtn.add(resp);
+		}
+		return rtn;
+	}
+
+	
 	/**
 	 * 
 	 * Method to put a file on the server. The filePath is the path with out the file name.  

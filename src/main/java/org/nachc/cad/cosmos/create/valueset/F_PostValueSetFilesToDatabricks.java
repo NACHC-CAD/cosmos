@@ -19,7 +19,7 @@ public class F_PostValueSetFilesToDatabricks {
 	}
 
 	public static void post() {
-		// postCsvFiles();
+		postCsvFiles();
 		postMeta();
 	}
 
@@ -47,7 +47,7 @@ public class F_PostValueSetFilesToDatabricks {
 	private static void postMeta() {
 		try {
 			String metaFileDatabricksTargetDir = A_ParametersForValueSetSchema.DATABRICKS_META_FILE_PATH;
-			File meta = new File(A_ParametersForValueSetSchema.META_FILE_ROOT, "meta-2020-08-31.csv");
+			File meta = new File(A_ParametersForValueSetSchema.META_FILE_ROOT, "meta.csv");
 			log.info("File: " + meta.getCanonicalPath());
 			log.info("Path: " + metaFileDatabricksTargetDir);
 			DatabricksFileUtilResponse resp = DatabricksFileUtil.put(metaFileDatabricksTargetDir, meta);

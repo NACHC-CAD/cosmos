@@ -21,7 +21,7 @@ public class E_DataDictionaryParseExcelToCsv {
 		File csvDir = new File(A_DataDictionaryParameters.CSV_FILE_LOCATION_FOR_DD);
 		File csvFile = new File(csvDir, excelFile.getName() + ".csv");
 		log.info("Doing parse for: " + FileUtil.getCanonicalPath(excelFile));
-		CovidDataDictionaryParser.parse(excelFile, csvFile, csvFile.getName());
+		CovidDataDictionaryParser.parse(excelFile, csvFile, "COVID 19 Data Dictionary");
 		log.info("Done");
 	}
 	
