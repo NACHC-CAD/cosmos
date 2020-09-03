@@ -34,7 +34,7 @@ public class H_CreateValueSetDatabaseObjects {
 			log.info("Done creating database objects.");
 			// create value_set_meta table
 			tableName = "value_set_meta";
-			path = A_ParametersForValueSetSchema.DATABRICKS_FILE_PATH;
+			path = A_ParametersForValueSetSchema.DATABRICKS_META_FILE_PATH;
 			log.info("Dropping table (" + schemaName + "." + tableName + ") for " + path);
 			DatabricksDbUtil.dropTable(schemaName, tableName, conn);
 			log.info("Creating table (" + schemaName + "." + tableName + ") for " + path);

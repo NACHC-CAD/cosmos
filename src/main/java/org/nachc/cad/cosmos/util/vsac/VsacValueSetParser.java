@@ -9,6 +9,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.nach.core.util.excel.ExcelUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class VsacValueSetParser {
 
 	public static Sheet parseFile(File excelFile, File csvDir, Sheet meta) {
@@ -72,6 +75,8 @@ public class VsacValueSetParser {
 		// add to the metadata file
 		Sheet metaSheet = srcBook.getSheet("Value Set Info");
 		Row row = ExcelUtil.createNextRow(meta);
+		int rowCnt = row.getRowNum();
+		log.debug("Added row to meta: " + rowCnt);
 		// add metadata
 		ExcelUtil.addCol(row, ExcelUtil.getStringValue(metaSheet, 1, 1), 0);
 		ExcelUtil.addCol(row, ExcelUtil.getStringValue(metaSheet, 2, 1), 1);

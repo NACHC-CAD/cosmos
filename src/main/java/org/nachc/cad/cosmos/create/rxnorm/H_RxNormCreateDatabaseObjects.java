@@ -23,9 +23,9 @@ public class H_RxNormCreateDatabaseObjects {
 			log.info("Got connection");
 			String schemaName = A_RxNormParameters.SCHEMA_NAME;
 			// create tables
-			createTable(schemaName, "conso", A_RxNormParameters.CONSO_DIR, "|", conn);
-			createTable(schemaName, "rel", A_RxNormParameters.REL_DIR, "|", conn);
-			createTable(schemaName, "sat", A_RxNormParameters.SAT_DIR, "|", conn);
+			createTable(schemaName, "rxnconso", A_RxNormParameters.CONSO_DIR, "|", conn);
+			createTable(schemaName, "rxnrel", A_RxNormParameters.REL_DIR, "|", conn);
+			createTable(schemaName, "rxnsat", A_RxNormParameters.SAT_DIR, "|", conn);
 			log.info("Done creating database objects.");
 		} finally {
 			Database.close(conn);
