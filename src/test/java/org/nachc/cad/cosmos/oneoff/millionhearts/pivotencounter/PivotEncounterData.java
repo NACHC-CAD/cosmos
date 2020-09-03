@@ -24,7 +24,7 @@ public class PivotEncounterData {
 		log.info("Starting parse...");
 		log.info("Getting file");
 		String srcFileName = "C:\\_WORKSPACES\\nachc\\oneoffs\\millionhearts\\Unity Encounters BPAA - Short.xlsx";
-		String dstFileName = "C:\\_WORKSPACES\\nachc\\oneoffs\\millionhearts\\Unity Encounters BPAA PIVOT - Short.csv";
+		String dstFileName = "C:\\_WORKSPACES\\nachc\\oneoffs\\millionhearts\\Unity Encounters BPAA - Short PIVOT.csv";
 		parse(srcFileName, dstFileName);
 	}
 
@@ -35,7 +35,11 @@ public class PivotEncounterData {
 		Sheet dstSheet = ExcelUtil.createNewWorkbook().createSheet("pivot");
 		addColHeaders(dstSheet);
 		int lastRow = srcSheet.getLastRowNum();
+		log.info("Row 1 of " + lastRow);
 		for (int r = 1; r <= lastRow; r++) {
+			if(r % 10000 == 0) {
+				log.info("Row " + r + " of " + lastRow);
+			}
 			Row row = srcSheet.getRow(r);
 			ArrayList<String> visits = new ArrayList<String>();
 			String patientId = ExcelUtil.getStringValue(srcSheet, r, 0);
