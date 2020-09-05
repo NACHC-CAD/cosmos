@@ -1,13 +1,14 @@
 package org.nachc.cad.cosmos.oneoff.millionhearts.pivotencounter;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 
 import com.nach.core.util.excel.ExcelUtil;
 
@@ -20,45 +21,48 @@ public class PivotEncounterData {
 
 	private static final String[] PARAMS = { "visitDate", "SysBp", "DiaBp", "Thiaz", "bb", "ace", "arb", "ccb", "alpha", "a2ra", "CenAg", "pai", "vaso" };
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		log.info("Starting parse...");
 		log.info("Getting file");
-		String srcFileName = "C:\\_WORKSPACES\\nachc\\oneoffs\\millionhearts\\Unity Encounters BPAA - Short.xlsx";
-		String dstFileName = "C:\\_WORKSPACES\\nachc\\oneoffs\\millionhearts\\Unity Encounters BPAA - Short PIVOT.csv";
+		//String srcFileName = "C:\\_WORKSPACES\\nachc\\oneoffs\\millionhearts\\Unity Encounters BPAA - Med.csv";
+		//String dstFileName = "C:\\_WORKSPACES\\nachc\\oneoffs\\millionhearts\\Unity Encounters BPAA - Med PIVOT.csv";
+		String srcFileName = "C:\\_WORKSPACES\\nachc\\oneoffs\\millionhearts\\Unity Encounters BPAA.csv";
+		String dstFileName = "C:\\_WORKSPACES\\nachc\\oneoffs\\millionhearts\\Unity Encounters BPAA - PIVOT.csv";
 		parse(srcFileName, dstFileName);
 	}
 
-	private static void parse(String srcFileName, String dstFileName) {
-		File file = new File(srcFileName);
-		Workbook book = ExcelUtil.getWorkbook(file);
-		Sheet srcSheet = book.getSheetAt(0);
+	public static void parse(String srcFileName, String dstFileName) throws Exception {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(srcFileName)));
 		Sheet dstSheet = ExcelUtil.createNewWorkbook().createSheet("pivot");
 		addColHeaders(dstSheet);
-		int lastRow = srcSheet.getLastRowNum();
-		log.info("Row 1 of " + lastRow);
-		for (int r = 1; r <= lastRow; r++) {
-			if(r % 10000 == 0) {
-				log.info("Row " + r + " of " + lastRow);
+		String str = reader.readLine();
+		int cnt = 0;
+		while (str != null) {
+			str = reader.readLine();
+			if(str == null) {
+				break;
 			}
-			Row row = srcSheet.getRow(r);
-			ArrayList<String> visits = new ArrayList<String>();
-			String patientId = ExcelUtil.getStringValue(srcSheet, r, 0);
-			for (int c = 1; c <= c; c++) {
-				String visitDate = ExcelUtil.getStringValue(srcSheet, r, c);
-				if (StringUtils.isEmpty(visitDate) || "NULL".equals(visitDate)) {
-					break;
-				}
-				visits.add(visitDate);
+			if (cnt % 10000 == 0) {
+				log.info("Row " + cnt);
 			}
-			parseVisits(patientId, visits, srcSheet, dstSheet, r);
+			String[] tokens = str.split("\\,");
+			if (tokens.length != 1236) {
+				log.info("ROW: " + cnt);
+				log.info("LENGTH: " + tokens.length);
+			}
+			parseVisits(tokens, dstSheet);
+			cnt++;
 		}
 		log.info("Done with parse");
 		log.info("Wrting file");
 		File dstFile = new File(dstFileName);
 		ExcelUtil.saveAsCsv(dstSheet, dstFile);
+		log.info("Done.");
 	}
 
-	private static void parseVisits(String patientId, List<String> visits, Sheet srcSheet, Sheet dstSheet, int srcRow) {
+	private static void parseVisits(String[] row, Sheet dstSheet) {
+		String patientId = row[0];
+		List<String> visits = getVisits(row);
 		// for each visit
 		int visitCnt = 0;
 		for (String visit : visits) {
@@ -72,7 +76,11 @@ public class PivotEncounterData {
 				paramCnt++;
 				dstCol++;
 				int srcCol = visitCnt + (paramCnt * CNT);
-				String val = ExcelUtil.getStringValue(srcSheet, srcRow, srcCol);
+				// String val = ExcelUtil.getStringValue(row, srcCol);
+				String val = row[srcCol];
+				if (paramCnt == 0) {
+					val = visit;
+				}
 				ExcelUtil.setStringValue(dstSheet, val, dstRow, dstCol);
 			}
 		}
@@ -81,10 +89,22 @@ public class PivotEncounterData {
 	private static void addColHeaders(Sheet dstSheet) {
 		ExcelUtil.setStringValue(dstSheet, "patientId", 0, 0);
 		int cnt = 0;
-		for(String param : PARAMS) {
+		for (String param : PARAMS) {
 			cnt++;
 			ExcelUtil.setStringValue(dstSheet, param, 0, cnt);
 		}
 	}
-	
+
+	private static List<String> getVisits(String[] row) {
+		ArrayList<String> rtn = new ArrayList<String>();
+		for (int i = 0; i < CNT; i++) {
+			String visit = row[i + 1];
+			if (StringUtils.isEmpty(visit) || visit.trim().equals("NULL")) {
+				break;
+			}
+			rtn.add(visit);
+		}
+		return rtn;
+	}
+
 }
