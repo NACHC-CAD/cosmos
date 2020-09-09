@@ -27,7 +27,6 @@
 	-->
 
 	<dependencies>
-		
 
 		<!-- LOMBOK (Lombok jar also needs to be added to Eclipse IDE) -->
         <dependency>

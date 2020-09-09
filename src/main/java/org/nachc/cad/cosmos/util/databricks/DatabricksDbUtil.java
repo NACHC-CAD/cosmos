@@ -80,7 +80,7 @@ public class DatabricksDbUtil {
 	 * Create a database.
 	 * 
 	 */
-	public static void createDatabase(String databaseName, Connection conn) {
+	public static void createDatabase (String databaseName, Connection conn) {
 		String sqlString = "create database " + databaseName;
 		Database.update(sqlString, conn);
 	}
