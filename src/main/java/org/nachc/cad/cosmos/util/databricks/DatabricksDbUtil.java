@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.nachc.cad.cosmos.util.databricks.auth.DatabricksAuthUtil;
+import org.yaorma.database.Data;
 import org.yaorma.database.Database;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +38,7 @@ public class DatabricksDbUtil {
 	 * 
 	 */
 	public static boolean databaseExists(String schemaName, Connection conn) {
-		List<Map<String, String>> data = showSchemas(conn);
+		Data data = showSchemas(conn);
 		for (Map<String, String> row : data) {
 			String namespace = row.get("namespace");
 			if (schemaName.equalsIgnoreCase(namespace)) {
@@ -52,9 +53,9 @@ public class DatabricksDbUtil {
 	 * Get a list of the existing databases.
 	 * 
 	 */
-	public static List<Map<String, String>> showSchemas(Connection conn) {
+	public static Data showSchemas(Connection conn) {
 		String sqlString = "show schemas";
-		List<Map<String, String>> rtn = Database.query(sqlString, conn);
+		Data rtn = Database.query(sqlString, conn);
 		return rtn;
 	}
 
@@ -65,7 +66,7 @@ public class DatabricksDbUtil {
 	 */
 	public static void dropDatabase(String schemaName, Connection conn) {
 		if (databaseExists(schemaName, conn) == true) {
-			List<Map<String, String>> data = showTables(schemaName, conn);
+			Data data = showTables(schemaName, conn);
 			for (Map<String, String> row : data) {
 				String tableName = row.get("tablename");
 				dropTable(schemaName, tableName, conn);
@@ -80,7 +81,7 @@ public class DatabricksDbUtil {
 	 * Create a database.
 	 * 
 	 */
-	public static void createDatabase (String databaseName, Connection conn) {
+	public static void createDatabase(String databaseName, Connection conn) {
 		String sqlString = "create database " + databaseName;
 		Database.update(sqlString, conn);
 	}
@@ -94,10 +95,10 @@ public class DatabricksDbUtil {
 	 * Get a list of tables for a given schema.
 	 * 
 	 */
-	public static List<Map<String, String>> showTables(String schemaName, Connection conn) {
+	public static Data showTables(String schemaName, Connection conn) {
 		String sqlString;
 		sqlString = "show tables in " + schemaName;
-		List<Map<String, String>> rtn = Database.query(sqlString, conn);
+		Data rtn = Database.query(sqlString, conn);
 		return rtn;
 	}
 
@@ -123,7 +124,7 @@ public class DatabricksDbUtil {
 		sqlString += "using csv \n";
 		sqlString += "options ( \n";
 		sqlString += "  header = \"true\", \n";
-		if(delim == null) {
+		if (delim == null) {
 			sqlString += "  inferDelimiter = \"true\", \n";
 		} else {
 			sqlString += "  delimiter = \"" + delim + "\", \n";
@@ -141,10 +142,9 @@ public class DatabricksDbUtil {
 		log.info("Refreshing table: " + sqlString);
 		Database.update(sqlString, conn);
 	}
-	
+
 	public static void close(Connection conn) {
 		Database.close(conn);
 	}
-	
-	
+
 }

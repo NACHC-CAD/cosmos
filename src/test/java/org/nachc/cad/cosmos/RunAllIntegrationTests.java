@@ -17,11 +17,14 @@ public class RunAllIntegrationTests {
 
 	@BeforeClass
 	public static void setup() {
+		log.info("");
+		log.info("");
 		log.info("***********************************************************");
 		log.info("Starting set up");
 		new DeleteTestFilesIntegrationTestSetup().shouldDeleteTestFilesDir();
 		log.info("Done with set up");
 		log.info("***********************************************************");
+		log.info("Done.");
 	}
 	
 }
