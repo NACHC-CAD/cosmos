@@ -53,9 +53,9 @@
 	
 		<!-- YAORMA FRAMEWORK STUFF -->
 		<dependency>
-			<groupId>com.nachc.cad.tools</groupId>
+			<groupId>org.nachc.cad.tools</groupId>
 			<artifactId>yaorma</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.3-SNAPSHOT</version>
 		</dependency>
 	
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
@@ -222,6 +222,7 @@
 
 	<build>
 		<plugins>
+			<!-- compile -->
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.7.0</version>
@@ -230,6 +231,16 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+			<!-- test -->
+			<plugin>
+				  <groupId>org.apache.maven.plugins</groupId>
+				  <artifactId>maven-surefire-plugin</artifactId>
+				  <version>3.0.0-M5</version>
+				  <configuration>
+				    <skipTests>true</skipTests>
+				  </configuration>
+			</plugin>
+			<!-- build -->
 			<plugin>
 			    <groupId>org.apache.maven.plugins</groupId>
 			    <artifactId>maven-jar-plugin</artifactId>
